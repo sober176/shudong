@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>匿名树洞</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- 主内容区，默认高斯模糊 -->
+    <div class="main-content blurred">
+        <div class="container">
+            <header>
+                <h1>匿名树洞</h1>
+                <!-- 用户状态信息（登录后显示） -->
+                <div id="user-status" style="display: none;">
+                    <span id="user-name" class="user-name"></span>
+                    <button id="logout-btn" class="logout-btn">退出登录</button>
+                </div>
+            </header>
+            
+            <main>
+                <section class="input-section">
+                    <textarea id="message-input" placeholder="写下你的心事..." rows="4"></textarea>
+                    <button id="send-btn">发送</button>
+                </section>
+                
+                <section class="messages-section">
+                    <div id="messages-container"></div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- 中央登录卡片 -->
+    <div id="auth-card" class="auth-card">
+        <div class="auth-card-content">
+            <h2 class="auth-card-title">欢迎来到匿名树洞</h2>
+            <p class="auth-card-subtitle">请先验证身份</p>
+            <form id="auth-form" class="auth-form">
+                <div class="form-group">
+                    <input type="email" id="email" name="email" placeholder="邮箱" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="password" name="password" placeholder="密码" required>
+                </div>
+                <button type="submit" id="auth-submit" class="auth-btn">登录/注册</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- 主 CDN: jsdelivr -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- 备用 CDN: unpkg -->
+    <script>
+        window.addEventListener('load', function() {
+            if (typeof supabase === 'undefined') {
+                console.log('jsdelivr CDN 加载失败，尝试 unpkg CDN...');
+                const script = document.createElement('script');
+                script.src = 'https://unpkg.com/@supabase/supabase-js@2';
+                document.head.appendChild(script);
+            }
+        });
+    </script>
+
+    <script src="app.js"></script>
+</body>
+</html>
