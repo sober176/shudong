@@ -13,14 +13,31 @@
             <header>
                 <h1>匿名树洞</h1>
                 <!-- 用户状态信息（登录后显示） -->
-                <div id="user-status" style="display: none;">
-                    <span id="user-name" class="user-name"></span>
-                    <button id="logout-btn" class="logout-btn">退出登录</button>
-                </div>
+                    <div id="user-status" style="display: none;">
+                        <span id="user-name" class="user-name"></span>
+                        <span id="credits-badge" class="credits-badge">🔋 能量: 0</span>
+                        <button id="logout-btn" class="logout-btn">退出登录</button>
+                    </div>
             </header>
             
             <main>
                 <section class="input-section">
+                    <!-- AI专属治愈框 -->
+                    <div id="ai-whisper-box" class="ai-whisper-box" style="display: none;">
+                        <div class="ai-whisper-content">
+                            <div class="ai-whisper-loading">✨ 治愈师正在感知你的情绪...</div>
+                            <div class="ai-whisper-reply" id="ai-whisper-reply"></div>
+                            <!-- 充值弹窗 -->
+                            <div id="recharge-card" class="recharge-card" style="display: none;">
+                                <div class="recharge-content">
+                                    <h3>✨ 治愈师的能量已耗尽</h3>
+                                    <p>如果你喜欢这个树洞，请作者喝杯咖啡，即可补满 100 个能量币继续倾诉。</p>
+                                    <div class="payment-placeholder">☕</div>
+                                    <button id="contact-author-btn" class="contact-author-btn">我已经打赏，联系作者加币</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <textarea id="message-input" placeholder="写下你的心事..." rows="4"></textarea>
                     <button id="send-btn">发送</button>
                 </section>
