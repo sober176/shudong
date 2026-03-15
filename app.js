@@ -250,7 +250,7 @@ async function signOut() {
 }
 
 // 更新UI以反映认证状态
-async function updateUIForAuthState(user) {
+function updateUIForAuthState(user) {
     currentUser = user;
     
     if (user) {
@@ -270,7 +270,7 @@ async function updateUIForAuthState(user) {
         sendBtn.disabled = false;
         
         // 获取并显示能量币余额
-        await fetchUserCredits(email);
+        fetchUserCredits(email);
         
         // 获取留言列表
         fetchMessages();
@@ -328,11 +328,25 @@ async function sendMessage() {
     }
 
     try {
+        // 检查能量币余额
+        const email = currentUser.email;
+        const storedCredits = localStorage.getItem(`user_credits_${email}`);
+        let credits = storedCredits ? parseInt(storedCredits) : 2;
+        
+        if (credits <= 0) {
+            // 显示AI whisper box
+            showAIWhisperLoading();
+            // 显示充值卡片
+            showRechargeCard();
+            sendBtn.disabled = false;
+            sendBtn.textContent = '发送';
+            return;
+        }
+        
         sendBtn.disabled = true;
         sendBtn.textContent = '发送中...';
 
         // 提取用户名（邮箱前缀）
-        const email = currentUser.email;
         const username = email.split('@')[0];
         
         const { data, error } = await supabaseClient
@@ -351,6 +365,11 @@ async function sendMessage() {
         await fetchMessages();
         
         showToast('发送成功');
+        
+        // 扣除1个能量币
+        credits -= 1;
+        localStorage.setItem(`user_credits_${email}`, credits.toString());
+        updateCreditsDisplay(credits);
         
         // 触发AI自动回复
         console.log('准备触发AI回复，用户留言:', content);
@@ -646,26 +665,21 @@ function applyEmotionTheme(emotion) {
 }
 
 // 获取用户能量币余额
-async function fetchUserCredits(email) {
+function fetchUserCredits(email) {
     try {
-        // 由于这是前端代码，我们需要使用Supabase客户端库来获取数据
-        const { data: userCredits, error } = await supabaseClient
-            .from('user_credits')
-            .select('credits')
-            .eq('email', email);
+        // 从localStorage获取能量币余额
+        const storedCredits = localStorage.getItem(`user_credits_${email}`);
+        let credits;
         
-        if (error) {
-            console.error('获取能量币余额失败:', error);
-            updateCreditsDisplay(0);
-            return;
-        }
-        
-        if (userCredits.length > 0) {
-            updateCreditsDisplay(userCredits[0].credits);
+        if (storedCredits) {
+            credits = parseInt(storedCredits);
         } else {
             // 默认给新用户2个能量币
-            updateCreditsDisplay(2);
+            credits = 2;
+            localStorage.setItem(`user_credits_${email}`, credits.toString());
         }
+        
+        updateCreditsDisplay(credits);
     } catch (error) {
         console.error('获取能量币余额失败:', error);
         updateCreditsDisplay(0);
