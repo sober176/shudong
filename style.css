@@ -521,3 +521,39 @@ body {
 .contact-author-btn:active {
     transform: translateY(0);
 }
+
+/* 充值提示样式 */
+.recharge-warning {
+    background: rgba(255, 235, 238, 0.9);
+    border: 1px solid rgba(255, 192, 203, 0.5);
+    border-radius: 8px;
+    padding: 12px;
+    margin: 16px 0;
+    text-align: center;
+    line-height: 1.6;
+}
+
+/* 爱发电按钮样式 */
+.afdian-btn {
+    display: block;
+    background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+    margin-top: 16px;
+}
+
+.afdian-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+}
+
+.afdian-btn:active {
+    transform: translateY(0);
+}
